@@ -129,7 +129,7 @@ def figure_2_2(runs=2000, time=1000):
     plt.ylabel('% optimal action')
     plt.legend()
 
-    plt.savefig('images/figure_2_2.png')
+    plt.savefig('images/figure_2_2(e a 0).png')
     plt.close()
 
 

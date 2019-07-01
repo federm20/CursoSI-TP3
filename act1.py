@@ -4,7 +4,7 @@ from tqdm import trange
 
 
 class Bandit:
-    def __init__(self, k_arm=10, epsilon=0., initial=0., step_size=0.1, sample_averages=False, modify_epsilon=2000000):
+    def __init__(self, k_arm=10, epsilon=0., initial=0., step_size=0.1, sample_averages=False, modify_epsilon=1000):
         self.k = k_arm
         self.step_size = step_size
         self.sample_averages = sample_averages
@@ -31,11 +31,11 @@ class Bandit:
     def act(self):
         epsilon = self.epsilon
 
-        # print(self.modify_epsilon, self.time)
-
         if self.modify_epsilon is not None:
-            epsilon = self.epsilon - self.epsilon / (self.modify_epsilon - self.time)
-            print(self.epsilon / (self.epsilon * (self.modify_epsilon - self.time)))
+            epsilon = self.epsilon - (self.epsilon * 1.02 * (self.time % self.modify_epsilon) / self.modify_epsilon)
+            if epsilon < 0:
+                epsilon = 0
+            print(epsilon)
 
         # print(epsilon)
 
@@ -87,24 +87,22 @@ def figure_2_1():
     plt.close()
 
 
-def figure_2_2(runs=2000, time=1000):
-    bandits = [
-                # Bandit(epsilon=0.1, sample_averages=True),
-               Bandit(epsilon=0.1, sample_averages=True, modify_epsilon=runs*time)
-               ]
+def actividad11(runs=2000, time=1000):
+    epsilons = [0.1, 0.15, 0.2]
+    bandits = [Bandit(epsilon=eps, sample_averages=True, modify_epsilon=runs) for eps in epsilons]
     best_action_counts, rewards = simulate(runs, time, bandits)
 
     plt.figure(figsize=(10, 20))
 
     plt.subplot(2, 1, 1)
-    for eps, rewards in zip([0.1], rewards):
+    for eps, rewards in zip(epsilons, rewards):
         plt.plot(rewards, label='epsilon = %.02f' % (eps))
     plt.xlabel('steps')
     plt.ylabel('average reward')
     plt.legend()
 
     plt.subplot(2, 1, 2)
-    for eps, counts in zip([0.1], best_action_counts):
+    for eps, counts in zip(epsilons, best_action_counts):
         plt.plot(counts, label='epsilon = %.02f' % (eps))
     plt.xlabel('steps')
     plt.ylabel('% optimal action')
@@ -114,24 +112,29 @@ def figure_2_2(runs=2000, time=1000):
     plt.close()
 
 
-def figure_2_3(runs=2000, time=1000):
-    bandits = []
-    bandits.append(Bandit(epsilon=0, initial=5, step_size=0.1))
-    bandits.append(Bandit(epsilon=0.1, initial=0, step_size=0.1))
-    best_action_counts, _ = simulate(runs, time, bandits)
+def actividad12(runs=2000, time=1000):
+    epsilons = [0.1]
+    bandits = [Bandit(epsilon=eps, sample_averages=True, modify_epsilon=runs) for eps in epsilons]
+    best_action_counts, rewards = simulate(runs, time, bandits)
 
-    plt.plot(best_action_counts[0], label='epsilon = 0, q = 5')
-    plt.plot(best_action_counts[1], label='epsilon = 0.1, q = 0')
-    plt.xlabel('Steps')
+    plt.figure(figsize=(10, 20))
+
+    plt.subplot(2, 1, 1)
+    for eps, rewards in zip(epsilons, rewards):
+        plt.plot(rewards, label='epsilon = %.02f' % (eps))
+    plt.xlabel('steps')
+    plt.ylabel('average reward')
+    plt.legend()
+
+    plt.subplot(2, 1, 2)
+    for eps, counts in zip(epsilons, best_action_counts):
+        plt.plot(counts, label='epsilon = %.02f' % (eps))
+    plt.xlabel('steps')
     plt.ylabel('% optimal action')
     plt.legend()
 
-    plt.savefig('images/figure_2_3.png')
+    plt.savefig('images/figure_2_2.png')
     plt.close()
 
-
-
-# if __name__ == '__main__':
-# figure_2_1()
-figure_2_2()
-# figure_2_3()
+# actividad11()
+actividad12()
