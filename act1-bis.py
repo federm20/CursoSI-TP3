@@ -13,7 +13,7 @@ class Bandit:
     # @gradient: if True, use gradient based bandit algorithm
     # @gradient_baseline: if True, use average reward as baseline for gradient based bandit algorithm
     def __init__(self, k_arm=10, epsilon=0., initial=0., step_size=0.1, sample_averages=False, UCB_param=None,
-                 gradient=False, gradient_baseline=False, true_reward=0.):
+                 gradient=False, gradient_baseline=False, true_reward=0., modify_epsilon=1000):
         self.k = k_arm
         self.step_size = step_size
         self.sample_averages = sample_averages
@@ -22,10 +22,12 @@ class Bandit:
         self.UCB_param = UCB_param
         self.gradient = gradient
         self.gradient_baseline = gradient_baseline
+
         self.average_reward = 0
         self.true_reward = true_reward
         self.epsilon = epsilon
         self.initial = initial
+        self.modify_epsilon = modify_epsilon
 
     def reset(self):
         # real reward for each action
@@ -41,7 +43,14 @@ class Bandit:
 
     # get an action for this bandit
     def act(self):
-        if np.random.rand() < self.epsilon:
+        epsilon = self.epsilon
+
+        if self.modify_epsilon is not None:
+            epsilon = self.epsilon - (self.epsilon * 1.02 * (self.time % self.modify_epsilon) / self.modify_epsilon)
+            if epsilon < 0:
+                epsilon = 0
+
+        if np.random.rand() < epsilon:
             return np.random.choice(self.indices)
 
         if self.UCB_param is not None:

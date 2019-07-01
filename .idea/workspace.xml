@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="50d57325-e53e-4280-a77b-3f033df919f7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/act1-bis.py" beforeDir="false" afterPath="$PROJECT_DIR$/act1-bis.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/act1.py" beforeDir="false" afterPath="$PROJECT_DIR$/act1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/figure_2_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/figure_2_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/figure_2_2(0.1 a 0).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/figure_2_2(0.15 a 0).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/figure_2_2(0.2 a 0).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/figure_2_2(todas jutas).png" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,13 +16,40 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="285344052">
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="Python Console" value="18" />
+          <entry key="py" value="520" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Python" value="538" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="png" value="28" />
+          <entry key="py" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Image" value="28" />
+          <entry key="Python" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/act1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="117">
-              <caret line="115" column="19" selection-start-line="115" selection-start-column="19" selection-end-line="115" selection-end-column="19" />
+            <state relative-caret-position="228">
+              <caret line="180" column="28" lean-forward="true" selection-start-line="180" selection-start-column="28" selection-end-line="180" selection-end-column="28" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -28,11 +57,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/act1-bis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1140">
-              <caret line="176" column="43" lean-forward="true" selection-start-line="176" selection-start-column="43" selection-end-line="176" selection-end-column="43" />
+            <state relative-caret-position="-513">
+              <caret line="29" column="44" selection-start-line="29" selection-start-column="44" selection-end-line="29" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -62,6 +91,8 @@
       <find>grad</find>
       <find>self.time</find>
       <find>gradient_baseline</find>
+      <find>true_reward</find>
+      <find>q_estimation</find>
     </findStrings>
     <replaceStrings>
       <replace>show</replace>
@@ -75,16 +106,16 @@
       <list>
         <option value="$PROJECT_DIR$/images-generator.py" />
         <option value="$PROJECT_DIR$/act2.py" />
-        <option value="$PROJECT_DIR$/act1-bis.py" />
         <option value="$PROJECT_DIR$/act3.py" />
+        <option value="$PROJECT_DIR$/act1-bis.py" />
         <option value="$PROJECT_DIR$/act1.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="width" value="815" />
-    <option name="height" value="868" />
+    <option name="x" value="-7" />
+    <option name="width" value="814" />
+    <option name="height" value="867" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -97,12 +128,12 @@
         <subPane>
           <expand>
             <path>
-              <item name="CursoSI-TP3" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CursoSI-TP3" type="462c0819:PsiDirectoryNode" />
+              <item name="Tp3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Tp3" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="CursoSI-TP3" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CursoSI-TP3" type="462c0819:PsiDirectoryNode" />
+              <item name="Tp3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Tp3" type="462c0819:PsiDirectoryNode" />
               <item name="images" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -115,7 +146,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -271,23 +302,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24966975" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24968314" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32956153" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.24611032" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32884097" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3301887" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4056604" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32884097" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.20619947" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.17114569" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.23719676" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.2956153" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.26280323" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -384,32 +415,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/images/figure_2_2(e a 0).png">
+    <entry file="file://$PROJECT_DIR$/images/figure_2_2(e a 0).png" />
+    <entry file="file://$PROJECT_DIR$/images/figure_2_2(todas jutas).png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/images/figure_2_2.png" />
+    <entry file="file://$PROJECT_DIR$/images/figure_2_5.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/images/figure_2_1.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/images/figure_2_2(todas jutas).png">
+    <entry file="file://$PROJECT_DIR$/act1-bis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-513">
+          <caret line="29" column="44" selection-start-line="29" selection-start-column="44" selection-end-line="29" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/images/gradient-bandit.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/images/figure_2_2.png">
+    <entry file="file://$PROJECT_DIR$/images/actividad_1_3.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/images/bandit_figure.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/images/actividad_1_2.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/act1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
-          <caret line="115" column="19" selection-start-line="115" selection-start-column="19" selection-end-line="115" selection-end-column="19" />
+        <state relative-caret-position="228">
+          <caret line="180" column="28" lean-forward="true" selection-start-line="180" selection-start-column="28" selection-end-line="180" selection-end-column="28" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/act1-bis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="176" column="43" lean-forward="true" selection-start-line="176" selection-start-column="43" selection-end-line="176" selection-end-column="43" />
         </state>
       </provider>
     </entry>
