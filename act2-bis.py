@@ -57,10 +57,10 @@ def CNN(params):
                           np.array(bunch_dataset["image_tensor"])[test_index]
         y_train, y_test = bunch_dataset["target"][train_index], bunch_dataset["target"][test_index]
 
-        model = getModel(values)
+        model = getModel([64, 32] + values)
 
         # Entrena el modelo
-        history = model.fit(np.array(X_train), y_train, validation_data=(np.array(X_test), y_test), epochs=5)
+        history = model.fit(np.array(X_train), y_train, validation_data=(np.array(X_test), y_test), epochs=200)
 
         if np.max(history.history['val_acc']) < 0.7:
             return np.max(history.history['val_acc'])
@@ -90,12 +90,14 @@ with tf.Session() as sess:
         print('Loading image ', len(bunch_dataset["image_tensor"]))
 
 # define hyperparametros a optimizar
-bds = [{'name': 'conv1', 'type': 'discrete', 'domain': (30, 60)},
-       {'name': 'conv2', 'type': 'discrete', 'domain': (30, 60)},
-       {'name': 'nn1', 'type': 'discrete', 'domain': (100, 1000)},
-       {'name': 'nn2', 'type': 'discrete', 'domain': (100, 1000)},
-       {'name': 'nn3', 'type': 'discrete', 'domain': (100, 1000)},
-       {'name': 'nn4', 'type': 'discrete', 'domain': (100, 1000)}]
+bds = [
+    # {'name': 'conv1', 'type': 'discrete', 'domain': (30, 60)},
+    # {'name': 'conv2', 'type': 'discrete', 'domain': (30, 60)},
+    {'name': 'nn1', 'type': 'discrete', 'domain': (100, 1000)},
+    {'name': 'nn2', 'type': 'discrete', 'domain': (100, 1000)},
+    {'name': 'nn3', 'type': 'discrete', 'domain': (100, 1000)},
+    {'name': 'nn4', 'type': 'discrete', 'domain': (100, 1000)}
+]
 
 # define el optimizador
 optimizer = BayesianOptimization(f=CNN,

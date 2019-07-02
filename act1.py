@@ -121,7 +121,7 @@ def simulate(runs, time, bandits):
     return mean_best_action_counts, mean_rewards
 
 
-def definicion_de_bandidos():
+def bandit_definition():
     plt.violinplot(dataset=np.random.randn(200, 10) + np.random.randn(10))
     plt.xlabel("Action")
     plt.ylabel("Reward distribution")
@@ -129,7 +129,7 @@ def definicion_de_bandidos():
     plt.show()
 
 
-def actividad_1_1(runs=2000, time=1000, initial=0.0):
+def activity_1_1(runs=2000, time=1000, initial=0.0):
     epsilons = [0.1, 0.15, 0.2]
     bandits = [Bandit(epsilon=eps, sample_averages=True, modify_epsilon=runs, initial=initial) for eps in epsilons]
     best_action_counts, rewards = simulate(runs, time, bandits)
@@ -154,7 +154,7 @@ def actividad_1_1(runs=2000, time=1000, initial=0.0):
     plt.show()
 
 
-def actividad_1_2(runs=2000, time=1000, initial=0.0):
+def activity_1_2(runs=2000, time=1000, initial=0.0):
     bandits = []
     bandits.append(Bandit(gradient=True, gradient_baseline=True, temperature=30.0, initial=initial))
     bandits.append(Bandit(gradient=True, gradient_baseline=True, temperature=50.0, initial=initial))
@@ -174,14 +174,14 @@ def actividad_1_2(runs=2000, time=1000, initial=0.0):
     plt.show()
 
 
-def actividad_1_3():
-    actividad_1_1(initial=0.3)
-    actividad_1_1(initial=0.5)
-    actividad_1_2(initial=0.3)
-    actividad_1_2(initial=0.5)
+def activity_1_3():
+    # activity_1_1(initial=0.3)
+    # activity_1_1(initial=0.5)
+    # activity_1_2(initial=0.3)
+    activity_1_2(initial=0.5)
 
 
-# definicion_de_bandidos()
-# actividad_1_1()
-# actividad_1_2()
-actividad_1_3()
+# bandit_definition()
+# activity_1_1()
+# activity_1_2()
+activity_1_3()

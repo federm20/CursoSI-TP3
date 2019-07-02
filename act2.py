@@ -40,7 +40,9 @@ def getModel(conv1, conv2, nn1, nn2, nn3, nn4):
 
 
 # Define la funcion a optimizar, en este caso la red ConvNet
-def CNN(conv1, conv2, nn1, nn2, nn3, nn4):
+# def CNN(conv1, conv2, nn1, nn2, nn3, nn4):
+def CNN(nn1, nn2, nn3, nn4):
+    conv1, conv2 = 64, 32
     conv1, conv2, nn1, nn2, nn3, nn4 = int(conv1), int(conv2), int(nn1), int(nn2), int(nn3), int(nn4)
 
     # Implementa la validacion cruzada mediante KFold
@@ -92,8 +94,8 @@ if __name__ == '__main__':
     KAPPA = 5
 
     params = {
-        'conv1': (10, 150),
-        'conv2': (10, 150),
+        # 'conv1': (10, 150),
+        # 'conv2': (10, 150),
         'nn1': (100, 1500),
         'nn2': (100, 1500),
         'nn3': (100, 1000),
