@@ -175,13 +175,13 @@ def activity_1_2(runs=2000, time=1000, initial=0.0):
 
 
 def activity_1_3():
-    # activity_1_1(initial=0.3)
-    # activity_1_1(initial=0.5)
-    # activity_1_2(initial=0.3)
+    activity_1_1(initial=0.3)
+    activity_1_1(initial=0.5)
+    activity_1_2(initial=0.3)
     activity_1_2(initial=0.5)
 
 
-# bandit_definition()
-# activity_1_1()
-# activity_1_2()
+bandit_definition()
+activity_1_1()
+activity_1_2()
 activity_1_3()
