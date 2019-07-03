@@ -86,7 +86,6 @@ class Bandit:
         self.action_count[action] += 1
         self.average_reward += (reward - self.average_reward) / self.time
 
-        # print(self.temperature)
         if self.sample_averages:
             # update estimation using sample averages
             self.q_estimation[action] += (reward - self.q_estimation[action]) / self.action_count[action]
@@ -181,7 +180,33 @@ def activity_1_3():
     activity_1_2(initial=0.5)
 
 
-bandit_definition()
-activity_1_1()
-activity_1_2()
-activity_1_3()
+def activity_1_5(time=3000, runs=2000):
+    epsilons = [0.2]
+    bandits = [Bandit(epsilon=eps, modify_epsilon=runs, initial=0.5) for eps in epsilons]
+    best_action_counts, rewards = simulate(runs, time, bandits)
+
+    plt.figure(figsize=(10, 20))
+
+    plt.subplot(2, 1, 1)
+    for eps, rewards in zip(epsilons, rewards):
+        plt.plot(rewards, label='epsilon = %.02f' % (eps))
+    plt.xlabel('steps')
+    plt.ylabel('average reward')
+    plt.legend()
+
+    plt.subplot(2, 1, 2)
+    for eps, counts in zip(epsilons, best_action_counts):
+        plt.plot(counts, label='epsilon = %.02f' % (eps))
+    plt.xlabel('steps')
+    plt.ylabel('% optimal action')
+    plt.legend()
+
+    plt.savefig('images/actividad_1_1.png')
+    plt.show()
+
+
+# bandit_definition()
+# activity_1_1()
+# activity_1_2()
+# activity_1_3()
+activity_1_5()

@@ -2,82 +2,49 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import svm, datasets
 
-
-def make_meshgrid(x, y, h=.02):
-    """Create a mesh of points to plot in
-
-    Parameters
-    ----------
-    x: data to base x-axis meshgrid on
-    y: data to base y-axis meshgrid on
-    h: stepsize for meshgrid, optional
-
-    Returns
-    -------
-    xx, yy : ndarray
-    """
-    x_min, x_max = x.min() - 1, x.max() + 1
-    y_min, y_max = y.min() - 1, y.max() + 1
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                         np.arange(y_min, y_max, h))
-    return xx, yy
-
-
-def plot_contours(ax, clf, xx, yy, **params):
-    """Plot the decision boundaries for a classifier.
-
-    Parameters
-    ----------
-    ax: matplotlib axes object
-    clf: a classifier
-    xx: meshgrid ndarray
-    yy: meshgrid ndarray
-    params: dictionary of params to pass to contourf, optional
-    """
-    Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
-    Z = Z.reshape(xx.shape)
-    out = ax.contourf(xx, yy, Z, **params)
-    return out
-
-
-# import some data to play with
+# obtiene dataset flor de iris
 iris = datasets.load_iris()
-# Take the first two features. We could avoid this by using a two-dim dataset
+
+# toma como valores solo el sepalo para simplificar
 X = iris.data[:, :2]
 y = iris.target
 
-# we create an instance of SVM and fit out data. We do not scale our
-# data since we want to plot the support vectors
-C = 1.0  # SVM regularization parameter
-models = (svm.SVC(kernel='linear', C=C),
-          svm.LinearSVC(C=C, max_iter=10000),
-          svm.SVC(kernel='rbf', gamma=0.7, C=C),
-          svm.SVC(kernel='poly', degree=3, gamma='auto', C=C))
-models = (clf.fit(X, y) for clf in models)
+# define la maquina de soporte vectorial y la entrena
+C = 1.0
+clf = svm.SVC(kernel='linear', C=C)
+clf.fit(X, y)
 
-# title for the plots
-titles = ('SVC with linear kernel',
-          'LinearSVC (linear kernel)',
-          'SVC with RBF kernel',
-          'SVC with polynomial (degree 3) kernel')
+# grafica la separacion de clases y el margen
 
-# Set-up 2x2 grid for plotting.
-fig, sub = plt.subplots(2, 2)
-plt.subplots_adjust(wspace=0.4, hspace=0.4)
+w = clf.coef_[0]
+a = -w[0] / w[1]
+xx = np.linspace(3, 8)
+yy = a * xx - (clf.intercept_[0]) / w[1]
 
+margin = 1 / np.sqrt(np.sum(clf.coef_ ** 2))
+yy_down = yy - np.sqrt(1 + a ** 2) * margin
+yy_up = yy + np.sqrt(1 + a ** 2) * margin
+
+# plot the line, the points, and the nearest vectors to the plane
+plt.clf()
+plt.plot(xx, yy, 'k-')
+plt.plot(xx, yy_down, 'k--')
+plt.plot(xx, yy_up, 'k--')
+
+
+# grafica delimitaciones de clase como contorno
 X0, X1 = X[:, 0], X[:, 1]
-xx, yy = make_meshgrid(X0, X1)
+x_min, x_max = X0.min() - 1, X0.max() + 1
+y_min, y_max = X1.min() - 1, X1.max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, .02), np.arange(y_min, y_max, .02))
 
-for clf, title, ax in zip(models, titles, sub.flatten()):
-    plot_contours(ax, clf, xx, yy,
-                  cmap=plt.cm.coolwarm, alpha=0.8)
-    ax.scatter(X0, X1, c=y, cmap=plt.cm.coolwarm, s=20, edgecolors='k')
-    ax.set_xlim(xx.min(), xx.max())
-    ax.set_ylim(yy.min(), yy.max())
-    ax.set_xlabel('Sepal length')
-    ax.set_ylabel('Sepal width')
-    ax.set_xticks(())
-    ax.set_yticks(())
-    ax.set_title(title)
+Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+out = plt.contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=0.8)
 
+# grafica puntos del dataset (sepalos)
+plt.scatter(X0, X1, c=y, cmap=plt.cm.coolwarm, s=20, edgecolors='k')
+
+plt.xlabel("Sepal length")
+plt.ylabel("Sepal width")
 plt.show()
