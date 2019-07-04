@@ -85,32 +85,66 @@ def activity_3_2():
 
 
 def activity_3_3():
-    X, y = datasets.load_iris(return_X_y=True)
-    kernel = 1.0 * kernels.RBF(1.0)
-    gpc = GaussianProcessClassifier(kernel=kernel, random_state=0)
-    gpc.fit(X, y)
-    score = gpc.score(X, y)
-    print(score)
+    iris = datasets.load_iris()
+    X = iris.data[:, :2]  # we only take the first two features.
+    y = np.array(iris.target, dtype=int)
 
-    y_pred = gpc.predict(X)
-    accuracy = accuracy_score(y, y_pred)
-    print("Accuracy (train) for %s: %0.1f%% " % ('GPC', accuracy * 100))
+    h = .02  # step size in the mesh
 
-    xx = np.linspace(3, 9, 100)
-    yy = np.linspace(1, 5, 100).T
-    xx, yy = np.meshgrid(xx, yy)
-    Xfull = np.c_[xx.ravel(), yy.ravel()]
-    probas = gpc.predict_proba(Xfull)
-    imshow_handle = plt.imshow(probas.reshape((100, 100)),
-                               extent=(3, 9, 1, 5), origin='lower')
+    # create a mesh to plot in
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
 
-    ax = plt.axes([0.15, 0.04, 0.7, 0.05])
-    plt.title("Probability")
-    plt.colorbar(imshow_handle, cax=ax, orientation='horizontal')
+    kernel = 1.0 * kernels.RBF([1.0])
+    gpc_rbf_isotropic = GaussianProcessClassifier(kernel=kernel).fit(X, y)
 
+    Z = gpc_rbf_isotropic.predict_proba(np.c_[xx.ravel(), yy.ravel()])
+
+    # Put the result into a color plot
+    Z = Z.reshape((xx.shape[0], xx.shape[1], 3))
+    plt.imshow(Z, extent=(x_min, x_max, y_min, y_max), origin="lower")
+
+    # Plot also the training points
+    plt.scatter(X[:, 0], X[:, 1], c=np.array(["r", "g", "b"])[y], edgecolors=(0, 0, 0))
+    plt.xlabel('Sepal length')
+    plt.ylabel('Sepal width')
+    plt.xlim(xx.min(), xx.max())
+    plt.ylim(yy.min(), yy.max())
+    plt.show()
+
+def activity_3_4():
+    iris = datasets.load_iris()
+    X = iris.data[:, :2]  # we only take the first two features.
+    y = np.array(iris.target, dtype=int)
+
+    h = .02  # step size in the mesh
+
+    # create a mesh to plot in
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+
+    kernel = 1.0 * kernels.RBF([1.0])
+    gpc_rbf_isotropic = GaussianProcessClassifier(kernel=kernel).fit(X, y)
+
+    Z = gpc_rbf_isotropic.predict_proba(np.c_[xx.ravel(), yy.ravel()])
+
+    # Put the result into a color plot
+    Z = Z.reshape((xx.shape[0], xx.shape[1], 3))
+    plt.imshow(Z, extent=(x_min, x_max, y_min, y_max), origin="lower")
+
+    # Plot also the training points
+    plt.scatter(X[:, 0], X[:, 1], c=np.array(["r", "g", "b"])[y], edgecolors=(0, 0, 0))
+    plt.xlabel('Sepal length')
+    plt.ylabel('Sepal width')
+    plt.xlim(xx.min(), xx.max())
+    plt.ylim(yy.min(), yy.max())
     plt.show()
 
 # activity_3_1()
 # activity_3_2()
-activity_3_3()
-# activity_3_4()
+# activity_3_3()
+activity_3_4()
