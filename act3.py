@@ -1,10 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import cm
 from sklearn import svm, datasets
 from sklearn.gaussian_process import GaussianProcessClassifier, kernels
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from GPyOpt.methods import BayesianOptimization
+from scipy.interpolate import griddata
 
 
 def activity_3_1():
@@ -88,27 +90,26 @@ def activity_3_2():
 
 def activity_3_3():
     iris = datasets.load_iris()
-    X = iris.data[:, :2]  # we only take the first two features.
+    X = iris.data[:, :2]
     y = np.array(iris.target, dtype=int)
 
-    h = .02  # step size in the mesh
+    h = .02
 
-    # create a mesh to plot in
+    # crea una malla para realizar la grafica
     x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
     y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                         np.arange(y_min, y_max, h))
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
 
     kernel = 1.0 * kernels.RBF([1.0])
     gpc_rbf_isotropic = GaussianProcessClassifier(kernel=kernel).fit(X, y)
 
     Z = gpc_rbf_isotropic.predict_proba(np.c_[xx.ravel(), yy.ravel()])
 
-    # Put the result into a color plot
+    # coloca el resultado en colores
     Z = Z.reshape((xx.shape[0], xx.shape[1], 3))
     plt.imshow(Z, extent=(x_min, x_max, y_min, y_max), origin="lower")
 
-    # Plot also the training points
+    # Grafica
     plt.scatter(X[:, 0], X[:, 1], c=np.array(["r", "g", "b"])[y], edgecolors=(0, 0, 0))
     plt.xlabel('Sepal length')
     plt.ylabel('Sepal width')
@@ -121,17 +122,25 @@ def activity_3_4():
     moons = datasets.make_moons(n_samples=1000, noise=0.3)
     X_train, X_test, y_train, y_test = train_test_split(moons[0], moons[1], test_size=0.2)
 
+    plt.scatter(X_train[:,0], X_train[:,1], c=np.array(["r", "g"])[y_train], edgecolors=(0, 0, 0))
+    plt.title('Train dataset - Moons generator')
+    plt.show()
+    plt.scatter(X_test[:,0], X_test[:,1], c=np.array(["r", "g"])[y_test], edgecolors=(0, 0, 0))
+    plt.title('Validation dataset - Moons generator')
+    plt.show()
+
     # define el kernel de base radial, la clasificador con GP, entrena y predice
     def custom_RBF(params):
-        print(params)
         kernel = params[0][0] ** 2 * kernels.RBF(length_scale=params[0][1])
-        gpc_rbf_isotropic = GaussianProcessClassifier(kernel=kernel).fit(X_train, y_train)
+        gpc_rbf_isotropic = GaussianProcessClassifier(kernel=kernel, optimizer=None).fit(X_train, y_train)
         y_pred = gpc_rbf_isotropic.predict(X_test)
-        return accuracy_score(y_test, y_pred)
+        acc = accuracy_score(y_test, y_pred)
+        print(params, acc)
+        return acc
 
     bds = [
-        {'name': 'p', 'type': 'continuous', 'domain': (0.1, 1000)},
-        {'name': 'ls', 'type': 'continuous', 'domain': (0.01, 10)}
+        {'name': 'p', 'type': 'continuous', 'domain': (1, 1000)},
+        {'name': 'ls', 'type': 'continuous', 'domain': (1, 10)}
     ]
 
     # define el optimizador
@@ -143,15 +152,25 @@ def activity_3_4():
                                      verbosity=True,
                                      maximize=True)
 
-    # realiza las 20 iteraciones de la optimizacion
-    optimizer.run_optimization(max_iter=5)
+    # realiza las 30 iteraciones de la optimizacion
+    optimizer.run_optimization(max_iter=30)
 
-    print(optimizer.Y)
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
 
-    plt.contour(optimizer.X[:, 0], optimizer.X[:, 0], optimizer.Y)
+    xx = optimizer.X[:, 0].reshape(len(optimizer.X[:, 0]), 1).reshape(-1)
+    yy = optimizer.X[:, 1].reshape(len(optimizer.X[:, 1]), 1).reshape(-1)
+    zz = -optimizer.Y.reshape(-1)
+
+    surf = ax.plot_trisurf(xx, yy, zz, cmap='viridis')
+    fig.colorbar(surf)
+    plt.xlabel('p')
+    plt.ylabel('length scale')
+    plt.title('RBF Accuracy')
+    plt.show()
 
 
-# activity_3_1()
-# activity_3_2()
-# activity_3_3()
+activity_3_1()
+activity_3_2()
+activity_3_3()
 activity_3_4()
