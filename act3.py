@@ -2,7 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import svm, datasets
 from sklearn.gaussian_process import GaussianProcessClassifier, kernels
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from GPyOpt.methods import BayesianOptimization
 
 
 def activity_3_1():
@@ -114,35 +116,40 @@ def activity_3_3():
     plt.ylim(yy.min(), yy.max())
     plt.show()
 
+
 def activity_3_4():
-    iris = datasets.load_iris()
-    X = iris.data[:, :2]  # we only take the first two features.
-    y = np.array(iris.target, dtype=int)
+    moons = datasets.make_moons(n_samples=1000, noise=0.3)
+    X_train, X_test, y_train, y_test = train_test_split(moons[0], moons[1], test_size=0.2)
 
-    h = .02  # step size in the mesh
+    # define el kernel de base radial, la clasificador con GP, entrena y predice
+    def custom_RBF(params):
+        print(params)
+        kernel = params[0][0] ** 2 * kernels.RBF(length_scale=params[0][1])
+        gpc_rbf_isotropic = GaussianProcessClassifier(kernel=kernel).fit(X_train, y_train)
+        y_pred = gpc_rbf_isotropic.predict(X_test)
+        return accuracy_score(y_test, y_pred)
 
-    # create a mesh to plot in
-    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
-    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                         np.arange(y_min, y_max, h))
+    bds = [
+        {'name': 'p', 'type': 'continuous', 'domain': (0.1, 1000)},
+        {'name': 'ls', 'type': 'continuous', 'domain': (0.01, 10)}
+    ]
 
-    kernel = 1.0 * kernels.RBF([1.0])
-    gpc_rbf_isotropic = GaussianProcessClassifier(kernel=kernel).fit(X, y)
+    # define el optimizador
+    optimizer = BayesianOptimization(f=custom_RBF,
+                                     domain=bds,
+                                     model_type='GP',
+                                     acquisition_type='EI',
+                                     acquisition_jitter=0.05,
+                                     verbosity=True,
+                                     maximize=True)
 
-    Z = gpc_rbf_isotropic.predict_proba(np.c_[xx.ravel(), yy.ravel()])
+    # realiza las 20 iteraciones de la optimizacion
+    optimizer.run_optimization(max_iter=5)
 
-    # Put the result into a color plot
-    Z = Z.reshape((xx.shape[0], xx.shape[1], 3))
-    plt.imshow(Z, extent=(x_min, x_max, y_min, y_max), origin="lower")
+    print(optimizer.Y)
 
-    # Plot also the training points
-    plt.scatter(X[:, 0], X[:, 1], c=np.array(["r", "g", "b"])[y], edgecolors=(0, 0, 0))
-    plt.xlabel('Sepal length')
-    plt.ylabel('Sepal width')
-    plt.xlim(xx.min(), xx.max())
-    plt.ylim(yy.min(), yy.max())
-    plt.show()
+    plt.contour(optimizer.X[:, 0], optimizer.X[:, 0], optimizer.Y)
+
 
 # activity_3_1()
 # activity_3_2()
