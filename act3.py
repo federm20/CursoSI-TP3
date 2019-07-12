@@ -68,14 +68,16 @@ def activity_3_2():
     y = iris.target
 
     # define la maquina de soporte vectorial y la entrena
-    clf = svm.NuSVC(nu=0.5, kernel='poly')
     clf.fit(X, y)
 
-    xx, yy = np.meshgrid(np.linspace(0, 8, 1000), np.linspace(0, 8, 1000))
+    X0, X1 = X[:, 0], X[:, 1]
+    x_min, x_max = X0.min() - 1, X0.max() + 1
+    y_min, y_max = X1.min() - 1, X1.max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, .02), np.arange(y_min, y_max, .02))
 
     Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
     Z = Z.reshape(xx.shape)
-    plt.contour(xx, yy, Z, levels=[0, 1, 2, 3, 4, 5, 6], colors='black')
+    plt.contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=0.8)
 
     # grafica puntos del dataset (sepalos)
     X0, X1 = X[:, 0], X[:, 1]
